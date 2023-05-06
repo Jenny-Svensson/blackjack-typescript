@@ -51,7 +51,6 @@ const valueCards: cardValue[] = [
   {value: "10", altValue: 10},
 ];
 
-const player: number[] = [];
 
 /** BUTTONS **/
 const hitBtn = document.createElement('button');
@@ -65,6 +64,9 @@ hitBtn.addEventListener('click', getCardForPlayer);
 FUNCTIONS 
 *
 */
+
+
+const player: number[] = [];
 
 function getCardForPlayer() {
   let cardValue: number;
@@ -90,6 +92,10 @@ function getCardForPlayer() {
 
 }
 
+  // Generate two random cards for the player at the start of the game
+  getCardForPlayer();
+  getCardForPlayer();
+
 function sumUpTotalPlayer() {
   let sum =  player.reduce((total, value) => total + value, 0);
   console.log( "Player total: " + sum); // sum up the total in player array
@@ -113,6 +119,7 @@ function sumUpTotalPlayer() {
   } if (sum === 21) { 
     console.log('21!!!');
 
-  // if the 2 first cards is Ace AND 10 | J(11) | Q(12) | K(13), you get blackjack! 
+  // if the 2 first cards is Ace AND 10 | J | Q | K, you get blackjack! 
   } 
 }
+
