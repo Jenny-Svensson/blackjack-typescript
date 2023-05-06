@@ -1,21 +1,21 @@
 /** pseudo code 
- * Player should get 2 cards at the beginning
- * Player can either hit more cards
- * Player can stand
+ * ✔️ Player should get 2 cards at the beginning
+ * ✔️ Player can either hit more cards
+ * ✔️ Player can stand
  * Player can double up (if the total sum of player[] is between 9-11)
  * Player can split (if the 2 first cards are the same value)
  * 
- * if player gets more than 21, player lose and PlayAgain-button shows. 
- * PlayAgain-button should start the game over again
+ * ✔️ if player gets more than 21, player lose and PlayAgain-button shows. 
+ * ✔️ PlayAgain-button should start the game over again
  * 
  * if the first two cards are either an Ace OR 10, J, Q, K you should get BlackJack
  * it doesnt matter if the first card are an Ace or 10, J, Q, K &&& if the second card is an Ace or 10, J, Q, K
  * If player gets BlackJack, all the button = disable and Dealer takes a card.
  * 
- * Dealer gets 1 card at the beginning
- * When player hits stand, the dealer should take another card
+ * ✔️ Dealer gets 1 card at the beginning
+ * ✔️ When player hits stand, the dealer should take another card
  * The dealer takes card until 17 - 21. 
- * If 17-21, dealer stand.
+ * ✔️ If 17-21, dealer stand.
  * If the total sum of dealer[] is bigger than 21, Dealer lose and Player wins.
  * 
  * If total sum of player[] is > than dealer[] AND < 21, player wins.
@@ -28,7 +28,6 @@
  * 
  * 
 */
-
 
 const app = document.getElementById('app');
 
@@ -67,10 +66,13 @@ app?.appendChild(standBtn);
 
 standBtn.addEventListener('click', () => {
   let sum =  player.reduce((total, value) => total + value, 0);
-  console.log( "You are standing on: " + sum); // sum up the total in player array
+  console.log( "Player are standing on: " + sum); // sum up the total in player array
 
   hitBtn.disabled = true;
   standBtn.disabled = true;
+
+  dealerTakesCard();
+
 });
 
 hitBtn.addEventListener('click', getCardForPlayer);
@@ -78,6 +80,52 @@ hitBtn.addEventListener('click', getCardForPlayer);
 /** 
 FUNCTIONS 
 **/
+
+function dealerTakesCard() {
+  // give a dealer a card
+  getCardForDealer();
+
+  // sum up total for dealer
+  sumUpTotalDealer();
+}
+
+function sumUpTotalDealer() {
+  let sum =  dealer.reduce((total, value) => total + value, 0);
+  if (sum >= 17 && sum <= 21) { // if sum is bigger or EQUAL 17 AND less OR EQUAL 21, dealer stand.
+    console.log('dealer stands on: ' + sum);
+  } if (sum < 17) {
+    console.log('dealer taking card... ' + sum)
+  }
+}
+
+const dealer: number[] = [];
+
+function getCardForDealer() {
+  let cardValue: number;
+  let cardForDealer: { value: string } = { value: ''};
+
+  let cardObject = valueCards[Math.floor(Math.random() * valueCards.length)];
+
+  if (typeof cardObject === "object" && "altValue" in cardObject) {
+    cardValue = cardObject.altValue;
+    cardForDealer.value = cardObject.value;
+  } else {
+    cardValue = cardObject as number;
+  }
+
+  dealer.push(cardValue);
+
+  let symbol = symbols[Math.floor(Math.random() * symbols.length)];
+  let dealerCard = document.createElement('p');
+  dealerCard.className = 'dealer-card';
+  dealerCard.innerHTML = "Dealer: " + cardForDealer.value + " " + symbol;
+
+  app?.appendChild(dealerCard);
+
+}
+
+getCardForDealer();
+
 
 const player: number[] = [];
 
@@ -97,9 +145,10 @@ function getCardForPlayer() {
   player.push(cardValue);
 
   let symbol = symbols[Math.floor(Math.random() * symbols.length)];
-  let card = document.createElement('p');
-  card.innerHTML = "Player: " + cardForPlayer.value + " " + symbol;
-  app?.appendChild(card);
+  let playerCard = document.createElement('p');
+  playerCard.className = 'player-card';
+  playerCard.innerHTML = "Player: " + cardForPlayer.value + " " + symbol;
+  app?.appendChild(playerCard);
 
   sumUpTotalPlayer();
 
@@ -139,6 +188,9 @@ function resetGame() {
 
   hitBtn.disabled = false;
   standBtn.disabled = false;
+
+  // Generate 1 random card for the dealer at the start of the game when clicking on Play again button
+  getCardForDealer();
 
   // Generate two random cards for the player at the start of the game when clicking on Play again button
   getCardForPlayer();
