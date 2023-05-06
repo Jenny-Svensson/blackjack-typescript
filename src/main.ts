@@ -55,16 +55,29 @@ const valueCards: cardValue[] = [
 /** BUTTONS **/
 const hitBtn = document.createElement('button');
 hitBtn.innerHTML = "Hit card";
+
+const standBtn = document.createElement('button');
+standBtn.innerHTML = "Stand";
+
+const resetBtn = document.createElement('button');
+resetBtn.innerHTML = "Play again";
+
 app?.appendChild(hitBtn);
+app?.appendChild(standBtn);
+
+standBtn.addEventListener('click', () => {
+  let sum =  player.reduce((total, value) => total + value, 0);
+  console.log( "You are standing on: " + sum); // sum up the total in player array
+
+  hitBtn.disabled = true;
+  standBtn.disabled = true;
+});
 
 hitBtn.addEventListener('click', getCardForPlayer);
 
-/*
-* 
+/** 
 FUNCTIONS 
-*
-*/
-
+**/
 
 const player: number[] = [];
 
@@ -92,25 +105,20 @@ function getCardForPlayer() {
 
 }
 
-  // Generate two random cards for the player at the start of the game
-  getCardForPlayer();
-  getCardForPlayer();
-
 function sumUpTotalPlayer() {
   let sum =  player.reduce((total, value) => total + value, 0);
   console.log( "Player total: " + sum); // sum up the total in player array
 
   // if sum is BIGGER than 21 = too much + disable hitbtn
   if (sum > 21) {
-    console.log('too much')
     // stop the game, disable all buttons and show play again button
     let playAgainText = document.createElement('p');
     playAgainText.innerText = "Too much! Play again?"
 
-    let resetBtn = document.createElement('button');
-    resetBtn.innerHTML = "Play again";
+    resetBtn.addEventListener('click', resetGame);
 
     hitBtn.disabled = true;
+    standBtn.disabled = true;
 
     app?.appendChild(playAgainText);
     app?.appendChild(resetBtn);
@@ -123,3 +131,19 @@ function sumUpTotalPlayer() {
   } 
 }
 
+function resetGame() {
+  const cards = document.querySelectorAll('p');
+  cards.forEach(card => card.remove()); // Remove all cards from the game
+
+  player.length = 0; // reset player array
+
+  hitBtn.disabled = false;
+
+  // Generate two random cards for the player at the start of the game when clicking on Play again button
+  getCardForPlayer();
+  getCardForPlayer();
+}
+
+  // Generate two random cards for the player at the start of the game
+  getCardForPlayer();
+  getCardForPlayer();
