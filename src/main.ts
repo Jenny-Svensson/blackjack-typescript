@@ -138,6 +138,7 @@ function resetGame() {
   player.length = 0; // reset player array
 
   hitBtn.disabled = false;
+  standBtn.disabled = false;
 
   // Generate two random cards for the player at the start of the game when clicking on Play again button
   getCardForPlayer();
