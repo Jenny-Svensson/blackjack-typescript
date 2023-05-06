@@ -12,19 +12,20 @@
  * it doesnt matter if the first card are an Ace or 10, J, Q, K &&& if the second card is an Ace or 10, J, Q, K
  * If player gets BlackJack, all the button = disable and Dealer takes a card.
  * 
- * ✔️ Dealer gets 1 card at the beginning
- * ✔️ When player hits stand, the dealer should take another card
- * The dealer takes card until 17 - 21. 
- * ✔️ If 17-21, dealer stand.
- * If the total sum of dealer[] is bigger than 21, Dealer lose and Player wins.
- * 
- * If total sum of player[] is > than dealer[] AND < 21, player wins.
- * If total sum of dealer[] is > than player [] AND < 21, dealer wins.
- * 
  * if player gets blackjack, and dealer has 2-9, player wins.
  * if player gets blackjack, and dealer has 10, J, Q, K, dealer takes one more card.
  * If dealer gets an Ace on the second card, it is push.
  * Otherwise, player wins (if the card is not an Ace).
+ * 
+ * ✔️ Dealer gets 1 card at the beginning
+ * ✔️ When player hits stand, the dealer should take another card
+ * ✔️ The dealer takes card until 17 - 21. 
+ * ✔️ If 17-21, dealer stand.
+ * ✔️ If the total sum of dealer[] is bigger than 21, Dealer lose and Player wins.
+ * 
+ * If total sum of player[] is > than dealer[] AND < 21, player wins.
+ * If total sum of dealer[] is > than player [] AND < 21, dealer wins.
+ * 
  * 
  * 
 */
@@ -84,7 +85,6 @@ FUNCTIONS
 function dealerTakesCard() {
   // give a dealer a card
   getCardForDealer();
-
   // sum up total for dealer
   sumUpTotalDealer();
 }
@@ -93,8 +93,14 @@ function sumUpTotalDealer() {
   let sum =  dealer.reduce((total, value) => total + value, 0);
   if (sum >= 17 && sum <= 21) { // if sum is bigger or EQUAL 17 AND less OR EQUAL 21, dealer stand.
     console.log('dealer stands on: ' + sum);
-  } if (sum < 17) {
-    console.log('dealer taking card... ' + sum)
+  } if (sum < 17) { // if sum is less than 17 dealer takes another card
+    console.log('dealer taking card... ')
+    getCardForDealer();
+    sumUpTotalDealer();
+  } if(sum > 21) { // if sum is bigger than 21, dealer lose.
+    console.log('dealer lose ' + sum);
+    // player wins! 
+    console.log('player win over dealer');
   }
 }
 
