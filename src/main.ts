@@ -23,8 +23,8 @@
  * ✔️ If 17-21, dealer stand.
  * ✔️ If the total sum of dealer[] is bigger than 21, Dealer lose and Player wins.
  * 
- * If total sum of player[] is > than dealer[] AND < 21, player wins.
- * If total sum of dealer[] is > than player [] AND < 21, dealer wins.
+ * ✔️ If total sum of player[] is > than dealer[] AND < 21, player wins.
+ * ✔️ If total sum of dealer[] is > than player [] AND < 21, dealer wins.
  * 
  * 
  * 
@@ -140,14 +140,20 @@ function sumUpTotalDealer() {
     pushText.innerHTML = "Its a push!";
     app?.appendChild(pushText);
 
-  } if (dealersum <= 21 && playersum <= 21 && (dealersum > playersum)) { // if dealersum and playersum is equal or less than 21 AND dealer is bigger than player. dealer wins.
+  } if ((dealersum <= 21 && playersum <= 21) && (dealersum > playersum)) { // if dealersum and playersum is equal or less than 21 AND dealer is bigger than player. dealer wins.
     console.log('dealer wins!');
-
     let dealerWins = document.createElement('p');
-    dealerWins.innerHTML = "Dealer wins with :" + dealersum + " against player: " + playersum;
+    dealerWins.innerHTML = "Dealer wins with : " + dealersum + " | against Player: " + playersum;
+
     app?.appendChild(dealerWins);
 
-  } 
+  } if ((playersum <= 21 && dealersum <= 21) && (playersum > dealersum)) { // if playersum and dealersum is equal or less than 21 AND player is bigger than dealer. player wins.
+    console.log('player wins!')
+    let playerWins = document.createElement('p');
+    playerWins.innerHTML = "Player wins with : " + playersum + " | against Dealer: " + dealersum;
+
+    app?.appendChild(playerWins);
+  }
 }
 
 const player: number[] = [];
