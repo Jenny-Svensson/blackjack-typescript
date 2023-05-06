@@ -86,25 +86,8 @@ FUNCTIONS
 **/
 
 function dealerTakesCard() {
-  // give a dealer a card
   getCardForDealer();
-  // sum up total for dealer
   sumUpTotalDealer();
-}
-
-function sumUpTotalDealer() {
-  let sum =  dealer.reduce((total, value) => total + value, 0);
-  if (sum >= 17 && sum <= 21) { // if sum is bigger or EQUAL 17 AND less OR EQUAL 21, dealer stand.
-    console.log('dealer stands on: ' + sum);
-  } if (sum < 17) { // if sum is less than 17 dealer takes another card
-    console.log('dealer taking card... ')
-    getCardForDealer();
-    sumUpTotalDealer();
-  } if(sum > 21) { // if sum is bigger than 21, dealer lose.
-    console.log('dealer lose ' + sum);
-    // player wins! 
-    console.log('player win over dealer');
-  }
 }
 
 const dealer: number[] = [];
@@ -132,9 +115,40 @@ function getCardForDealer() {
   app?.appendChild(dealerCard);
 
 }
-
 getCardForDealer();
 
+let dealersum;
+let playersum: number;
+
+function sumUpTotalDealer() {
+  dealersum =  dealer.reduce((total, value) => total + value, 0);
+  if (dealersum >= 17 && dealersum <= 21) { // if sum is bigger or EQUAL 17 AND less OR EQUAL 21, dealer stand.
+    console.log('dealer stands on: ' + dealersum);
+
+  } if (dealersum < 17) { // if sum is less than 17 dealer takes another card
+    getCardForDealer();
+    sumUpTotalDealer();
+
+  } if(dealersum > 21) { // if dealer sum is bigger than 21, dealer lose.
+    let dealerTooMuch = document.createElement('p');
+    dealerTooMuch.innerHTML = "dealer too much, player wins!"
+    app?.appendChild(dealerTooMuch);
+
+  } if (dealersum === playersum) { // if dealer and player has the same sum, its a push
+    //console.log('its a push!');
+    let pushText = document.createElement('p');
+    pushText.innerHTML = "Its a push!";
+    app?.appendChild(pushText);
+
+  } if (dealersum <= 21 && playersum <= 21 && (dealersum > playersum)) { // if dealersum and playersum is equal or less than 21 AND dealer is bigger than player. dealer wins.
+    console.log('dealer wins!');
+
+    let dealerWins = document.createElement('p');
+    dealerWins.innerHTML = "Dealer wins with :" + dealersum + " against player: " + playersum;
+    app?.appendChild(dealerWins);
+
+  } 
+}
 
 const player: number[] = [];
 
@@ -164,10 +178,10 @@ function getCardForPlayer() {
 }
 
 function sumUpTotalPlayer() {
-  let sum =  player.reduce((total, value) => total + value, 0);
+  playersum =  player.reduce((total, value) => total + value, 0);
 
   // if sum is BIGGER than 21 = too much + disable hitbtn
-  if (sum > 21) {
+  if (playersum > 21) {
     // stop the game, disable all buttons and show play again button
     let playAgainText = document.createElement('p');
     playAgainText.innerText = "Too much! Play again?"
@@ -179,10 +193,11 @@ function sumUpTotalPlayer() {
     app?.appendChild(resetBtn);
 
   // if sum is 21, disable the hit card btn and stand
-  } if (sum === 21) { 
+  } if (playersum === 21) { 
     console.log('21!!!');
     hitBtn.disabled = true;
     standBtn.disabled = true;
+    dealerTakesCard();
 
   // if the 2 first cards is Ace AND 10 | J | Q | K, you get blackjack! 
   } 
