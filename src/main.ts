@@ -64,6 +64,7 @@ resetBtn.innerHTML = "Play again";
 
 app?.appendChild(hitBtn);
 app?.appendChild(standBtn);
+app?.appendChild(resetBtn);
 
 standBtn.addEventListener('click', () => {
   let sum =  player.reduce((total, value) => total + value, 0);
@@ -77,6 +78,8 @@ standBtn.addEventListener('click', () => {
 });
 
 hitBtn.addEventListener('click', getCardForPlayer);
+
+resetBtn.addEventListener('click', resetGame);
 
 /** 
 FUNCTIONS 
@@ -162,15 +165,12 @@ function getCardForPlayer() {
 
 function sumUpTotalPlayer() {
   let sum =  player.reduce((total, value) => total + value, 0);
-  console.log( "Player total: " + sum); // sum up the total in player array
 
   // if sum is BIGGER than 21 = too much + disable hitbtn
   if (sum > 21) {
     // stop the game, disable all buttons and show play again button
     let playAgainText = document.createElement('p');
     playAgainText.innerText = "Too much! Play again?"
-
-    resetBtn.addEventListener('click', resetGame);
 
     hitBtn.disabled = true;
     standBtn.disabled = true;
@@ -181,6 +181,8 @@ function sumUpTotalPlayer() {
   // if sum is 21, disable the hit card btn and stand
   } if (sum === 21) { 
     console.log('21!!!');
+    hitBtn.disabled = true;
+    standBtn.disabled = true;
 
   // if the 2 first cards is Ace AND 10 | J | Q | K, you get blackjack! 
   } 
@@ -191,6 +193,7 @@ function resetGame() {
   cards.forEach(card => card.remove()); // Remove all cards from the game
 
   player.length = 0; // reset player array
+  dealer.length = 0; // reset dealer array
 
   hitBtn.disabled = false;
   standBtn.disabled = false;
