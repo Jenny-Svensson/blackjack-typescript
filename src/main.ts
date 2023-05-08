@@ -92,7 +92,11 @@ function dealerTakesCard() {
 
 const dealer: number[] = [];
 
+let div = document.createElement('div');
+div.className = "dealer-container";
+
 function getCardForDealer() {
+
   let cardValue: number;
   let cardForDealer: { value: string } = { value: ''};
 
@@ -112,7 +116,9 @@ function getCardForDealer() {
   dealerCard.className = 'dealer-card';
   dealerCard.innerHTML = "Dealer: " + cardForDealer.value + " " + symbol;
 
-  app?.appendChild(dealerCard);
+
+  div.appendChild(dealerCard)
+  app?.prepend(div);
 
 }
 getCardForDealer();
@@ -130,29 +136,40 @@ function sumUpTotalDealer() {
     sumUpTotalDealer();
 
   } if(dealersum > 21) { // if dealer sum is bigger than 21, dealer lose.
-    let dealerTooMuch = document.createElement('p');
-    dealerTooMuch.innerHTML = "dealer too much, player wins!"
-    app?.appendChild(dealerTooMuch);
+    let dealerTooMuch = document.getElementById('dealerTooMuch');
+      if(!dealerTooMuch) {
+        let dealerTooMuch = document.createElement('p');
+        dealerTooMuch.id = "dealerTooMuch";
+        dealerTooMuch.textContent = "dealer too much, player wins!"
+        app?.appendChild(dealerTooMuch);
+  }
 
   } if (dealersum === playersum) { // if dealer and player has the same sum, its a push
-    //console.log('its a push!');
-    let pushText = document.createElement('p');
-    pushText.innerHTML = "Its a push!";
-    app?.appendChild(pushText);
+    let pushText = document.getElementById('pushText');
+      if(!pushText) {
+        let pushText = document.createElement('p');
+        pushText.id = "pushText";
+        pushText.textContent = "Its a push!";
+        app?.appendChild(pushText);
+      }
 
   } if ((dealersum <= 21 && playersum <= 21) && (dealersum > playersum)) { // if dealersum and playersum is equal or less than 21 AND dealer is bigger than player. dealer wins.
-    console.log('dealer wins!');
-    let dealerWins = document.createElement('p');
-    dealerWins.innerHTML = "Dealer wins with : " + dealersum + " | against Player: " + playersum;
-
-    app?.appendChild(dealerWins);
+    let dealerWins = document.getElementById('dealerWins');
+      if(!dealerWins) {
+        let dealerWins = document.createElement('p');
+        dealerWins.id = "dealerWins";
+        dealerWins.textContent = "Dealer wins with : " + dealersum + " | against Player: " + playersum;
+        app?.appendChild(dealerWins);
+      }
 
   } if ((playersum <= 21 && dealersum <= 21) && (playersum > dealersum)) { // if playersum and dealersum is equal or less than 21 AND player is bigger than dealer. player wins.
-    console.log('player wins!')
-    let playerWins = document.createElement('p');
-    playerWins.innerHTML = "Player wins with : " + playersum + " | against Dealer: " + dealersum;
-
-    app?.appendChild(playerWins);
+    let playerWins = document.getElementById('playerWins');
+      if(!playerWins) {
+        let playerWins = document.createElement('p');
+        playerWins.id = "playerWins";
+        playerWins.textContent = "Player wins with : " + playersum + " | against Dealer: " + dealersum;
+        app?.appendChild(playerWins);
+      }
   }
 }
 

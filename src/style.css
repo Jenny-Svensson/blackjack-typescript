@@ -4,7 +4,17 @@
 }
 
 .dealer-card {
-  border: 1px red solid;
+  background-color: rgba(255, 0, 0, 0.178);
+  width: 50%;
+  display: inline;
+  margin: 5px;
+  padding: 1rem;
+}
+
+.dealer-container {
+  border: 1px yellow solid;
+  padding: 2rem;
+  margin: 2rem;
 }
 
 :root {
