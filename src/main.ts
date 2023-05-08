@@ -92,8 +92,8 @@ function dealerTakesCard() {
 
 const dealer: number[] = [];
 
-let div = document.createElement('div');
-div.className = "dealer-container";
+let dealerContainer = document.createElement('div');
+dealerContainer.className = "dealer-container";
 
 function getCardForDealer() {
 
@@ -117,8 +117,8 @@ function getCardForDealer() {
   dealerCard.innerHTML = "Dealer: " + cardForDealer.value + " " + symbol;
 
 
-  div.appendChild(dealerCard)
-  app?.prepend(div);
+  dealerContainer.appendChild(dealerCard)
+  app?.prepend(dealerContainer);
 
 }
 getCardForDealer();
@@ -175,6 +175,9 @@ function sumUpTotalDealer() {
 
 const player: number[] = [];
 
+let playerContainer = document.createElement('div');
+playerContainer.className = "player-container";
+
 function getCardForPlayer() {
   let cardValue: number;
   let cardForPlayer: { value: string } = { value: ''};
@@ -194,7 +197,9 @@ function getCardForPlayer() {
   let playerCard = document.createElement('p');
   playerCard.className = 'player-card';
   playerCard.innerHTML = "Player: " + cardForPlayer.value + " " + symbol;
-  app?.appendChild(playerCard);
+
+  playerContainer.appendChild(playerCard)
+  app?.appendChild(playerContainer);
 
   sumUpTotalPlayer();
 
@@ -213,7 +218,6 @@ function sumUpTotalPlayer() {
     standBtn.disabled = true;
 
     app?.appendChild(playAgainText);
-    app?.appendChild(resetBtn);
 
   // if sum is 21, disable the hit card btn and stand
   } if (playersum === 21) { 

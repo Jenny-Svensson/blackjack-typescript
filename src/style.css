@@ -1,6 +1,16 @@
 
 .player-card {
-  border: 1px white solid;
+  background-color: rgba(255, 255, 255, 0.336);
+  height: 50px;
+  margin: 5px;
+  padding: 1rem;
+}
+
+.player-container {
+  padding: 1rem;
+  margin: 1rem;
+  display: flex;
+  flex-direction: row;
 }
 
 .dealer-card {
