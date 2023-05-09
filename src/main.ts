@@ -30,7 +30,9 @@
  * 
 */
 
+
 const app = document.getElementById('app');
+
 
 type cardValue = {value: string, altValue: number};
 
@@ -52,6 +54,20 @@ const valueCards: cardValue[] = [
 ];
 
 
+const resultDiv = document.createElement('div');
+resultDiv.id = "resultDiv";
+
+const dealerTitle = document.createElement('h1');
+dealerTitle.id = "dealer-title";
+dealerTitle.textContent = "DEALER";
+
+const playerTitle = document.createElement('h1');
+playerTitle.id = "player-title";
+playerTitle.textContent = "PLAYER";
+
+const buttonContainer = document.createElement('div');
+buttonContainer.id = "buttonContainer";
+
 /** BUTTONS **/
 const hitBtn = document.createElement('button');
 hitBtn.innerHTML = "Hit card";
@@ -62,9 +78,14 @@ standBtn.innerHTML = "Stand";
 const resetBtn = document.createElement('button');
 resetBtn.innerHTML = "Play again";
 
-app?.appendChild(hitBtn);
-app?.appendChild(standBtn);
-app?.appendChild(resetBtn);
+app?.appendChild(buttonContainer);
+buttonContainer.appendChild(hitBtn);
+
+app?.appendChild(buttonContainer);
+buttonContainer.appendChild(standBtn);
+
+app?.appendChild(buttonContainer);
+buttonContainer.appendChild(resetBtn);
 
 standBtn.addEventListener('click', () => {
   let sum =  player.reduce((total, value) => total + value, 0);
@@ -74,6 +95,9 @@ standBtn.addEventListener('click', () => {
   standBtn.disabled = true;
 
   dealerTakesCard();
+
+  app?.prepend(dealerTitle);
+  app?.appendChild(playerTitle);
 
 });
 
@@ -94,6 +118,7 @@ const dealer: number[] = [];
 
 let dealerContainer = document.createElement('div');
 dealerContainer.className = "dealer-container";
+dealerContainer.id = "dealerContainer";
 
 function getCardForDealer() {
 
@@ -114,7 +139,7 @@ function getCardForDealer() {
   let symbol = symbols[Math.floor(Math.random() * symbols.length)];
   let dealerCard = document.createElement('p');
   dealerCard.className = 'dealer-card';
-  dealerCard.innerHTML = "Dealer: " + cardForDealer.value + " " + symbol;
+  dealerCard.innerHTML =cardForDealer.value + " " + symbol;
 
 
   dealerContainer.appendChild(dealerCard)
@@ -140,8 +165,9 @@ function sumUpTotalDealer() {
       if(!dealerTooMuch) {
         let dealerTooMuch = document.createElement('p');
         dealerTooMuch.id = "dealerTooMuch";
-        dealerTooMuch.textContent = "dealer too much, player wins!"
-        app?.appendChild(dealerTooMuch);
+        dealerTooMuch.textContent = "Dealer busted, Player wins!"
+        buttonContainer.prepend(resultDiv);
+        resultDiv.appendChild(dealerTooMuch);
   }
 
   } if (dealersum === playersum) { // if dealer and player has the same sum, its a push
@@ -150,7 +176,8 @@ function sumUpTotalDealer() {
         let pushText = document.createElement('p');
         pushText.id = "pushText";
         pushText.textContent = "Its a push!";
-        app?.appendChild(pushText);
+        buttonContainer.prepend(resultDiv);
+        resultDiv.appendChild(pushText);
       }
 
   } if ((dealersum <= 21 && playersum <= 21) && (dealersum > playersum)) { // if dealersum and playersum is equal or less than 21 AND dealer is bigger than player. dealer wins.
@@ -158,8 +185,9 @@ function sumUpTotalDealer() {
       if(!dealerWins) {
         let dealerWins = document.createElement('p');
         dealerWins.id = "dealerWins";
-        dealerWins.textContent = "Dealer wins with : " + dealersum + " | against Player: " + playersum;
-        app?.appendChild(dealerWins);
+        dealerWins.textContent = "Dealer wins with: " + dealersum ;
+        buttonContainer.prepend(resultDiv);
+        resultDiv.appendChild(dealerWins);
       }
 
   } if ((playersum <= 21 && dealersum <= 21) && (playersum > dealersum)) { // if playersum and dealersum is equal or less than 21 AND player is bigger than dealer. player wins.
@@ -167,8 +195,9 @@ function sumUpTotalDealer() {
       if(!playerWins) {
         let playerWins = document.createElement('p');
         playerWins.id = "playerWins";
-        playerWins.textContent = "Player wins with : " + playersum + " | against Dealer: " + dealersum;
-        app?.appendChild(playerWins);
+        playerWins.textContent = "Player wins with : " + playersum;
+        buttonContainer.prepend(resultDiv);
+        resultDiv.appendChild(playerWins);
       }
   }
 }
@@ -177,6 +206,7 @@ const player: number[] = [];
 
 let playerContainer = document.createElement('div');
 playerContainer.className = "player-container";
+playerContainer.id = "playerContainer";
 
 function getCardForPlayer() {
   let cardValue: number;
@@ -196,12 +226,14 @@ function getCardForPlayer() {
   let symbol = symbols[Math.floor(Math.random() * symbols.length)];
   let playerCard = document.createElement('p');
   playerCard.className = 'player-card';
-  playerCard.innerHTML = "Player: " + cardForPlayer.value + " " + symbol;
+  playerCard.innerHTML = cardForPlayer.value + " " + symbol;
 
   playerContainer.appendChild(playerCard)
   app?.appendChild(playerContainer);
 
   sumUpTotalPlayer();
+
+  
 
 }
 
@@ -217,7 +249,8 @@ function sumUpTotalPlayer() {
     hitBtn.disabled = true;
     standBtn.disabled = true;
 
-    app?.appendChild(playAgainText);
+    app?.appendChild(resultDiv);
+    resultDiv.appendChild(playAgainText);
 
   // if sum is 21, disable the hit card btn and stand
   } if (playersum === 21) { 
@@ -229,6 +262,7 @@ function sumUpTotalPlayer() {
   // if the 2 first cards is Ace AND 10 | J | Q | K, you get blackjack! 
   } 
 }
+
 
 function resetGame() {
   const cards = document.querySelectorAll('p');
@@ -246,8 +280,14 @@ function resetGame() {
   // Generate two random cards for the player at the start of the game when clicking on Play again button
   getCardForPlayer();
   getCardForPlayer();
+
+  app?.prepend(dealerTitle);
+  app?.appendChild(playerTitle);
 }
 
   // Generate two random cards for the player at the start of the game
   getCardForPlayer();
   getCardForPlayer();
+
+  app?.prepend(dealerTitle);
+  app?.appendChild(playerTitle);

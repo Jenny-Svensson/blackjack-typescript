@@ -1,9 +1,14 @@
 
-.player-card {
-  background-color: rgba(255, 255, 255, 0.336);
-  height: 50px;
+.player-card, .dealer-card {
+  background-color: #f1f1f1;
+  color: black;
+  border: 1px solid black;
+  height: 75px;
+  max-width: 50px;
+  width: 35px;
   margin: 5px;
   padding: 1rem;
+  font-size: 1.7rem;
 }
 
 .player-container {
@@ -14,11 +19,14 @@
   justify-content: center;
 }
 
-.dealer-card {
-  background-color: rgba(255, 255, 255, 0.336);
-  height: 50px;
-  margin: 5px;
-  padding: 1rem;
+#dealer-title {
+  font-size: 4rem;
+  opacity: 50%;
+}
+
+#player-title {
+  font-size: 4rem;
+  opacity: 50%;
 }
 
 .dealer-container {
@@ -27,6 +35,12 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+
+#resultDiv {
+  font-size: 1.5rem;
+  color: yellow;
+
 }
 
 :root {
