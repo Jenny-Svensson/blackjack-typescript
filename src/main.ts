@@ -137,11 +137,21 @@ function getCardForDealer() {
   dealer.push(cardValue);
 
   let symbol = symbols[Math.floor(Math.random() * symbols.length)];
+  let symbolElement = document.createElement('span');
+  symbolElement.innerText = symbol;
+
+    // add class based on symbol
+  if (symbol === '♥' || symbol === '♦') {
+    symbolElement.classList.add('red');
+  } else {
+    symbolElement.classList.add('black');
+  }
+
   let dealerCard = document.createElement('p');
   dealerCard.className = 'dealer-card';
-  dealerCard.innerHTML =cardForDealer.value + " " + symbol;
+  dealerCard.innerHTML = cardForDealer.value + " ";
 
-
+  dealerCard.appendChild(symbolElement);
   dealerContainer.appendChild(dealerCard)
   app?.prepend(dealerContainer);
 
@@ -224,12 +234,29 @@ function getCardForPlayer() {
   player.push(cardValue);
 
   let symbol = symbols[Math.floor(Math.random() * symbols.length)];
+
+  let symbolElement = document.createElement('span');
+  symbolElement.innerText = symbol;
+
+    // add class based on symbol
+  if (symbol === '♥' || symbol === '♦') {
+    symbolElement.classList.add('red');
+  } else {
+    symbolElement.classList.add('black');
+  }
+
   let playerCard = document.createElement('p');
   playerCard.className = 'player-card';
-  playerCard.innerHTML = cardForPlayer.value + " " + symbol;
+  playerCard.innerHTML = cardForPlayer.value + " ";
 
+  
+  playerCard.appendChild(symbolElement);
   playerContainer.appendChild(playerCard)
   app?.appendChild(playerContainer);
+
+
+  app?.prepend(dealerTitle);
+  app?.appendChild(playerTitle);
 
   sumUpTotalPlayer();
 
