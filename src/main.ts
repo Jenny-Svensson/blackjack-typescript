@@ -334,8 +334,6 @@ function sumUpTotalPlayer() {
     hitBtn.disabled = true;
     standBtn.disabled = true;
     dealerTakesCard();
-
-  // if the 2 first cards is Ace AND 10 | J | Q | K, you get blackjack! 
   } 
 }
 
