@@ -160,8 +160,27 @@ getCardForDealer();
 let dealersum;
 let playersum: number;
 
+
+function DealerBlackJack() {
+  if (dealer.length < 2) {
+    return false;
+  }
+
+  const firstCardDealer = dealer[0];
+  const secondCardDealer = dealer[1];
+
+  const hasAce = firstCardDealer === 11 || secondCardDealer === 11;
+  const hasFaceCard = secondCardDealer === 10 || firstCardDealer === 10;
+
+  return hasAce && hasFaceCard;
+}
+
 function sumUpTotalDealer() {
   dealersum =  dealer.reduce((total, value) => total + value, 0);
+
+  const dBlackJack = DealerBlackJack();
+  const pBlackJack = PlayerBlackJack();
+
   if (dealersum >= 17 && dealersum <= 21) { // if sum is bigger or EQUAL 17 AND less OR EQUAL 21, dealer stand.
     console.log('dealer stands on: ' + dealersum);
 
@@ -192,21 +211,37 @@ function sumUpTotalDealer() {
   } if ((dealersum <= 21 && playersum <= 21) && (dealersum > playersum)) { // if dealersum and playersum is equal or less than 21 AND dealer is bigger than player. dealer wins.
     let dealerWins = document.getElementById('dealerWins');
       if(!dealerWins) {
+
         let dealerWins = document.createElement('p');
         dealerWins.id = "dealerWins";
-        dealerWins.textContent = "Dealer wins with: " + dealersum ;
-        buttonContainer.prepend(resultDiv);
+
+        if (dBlackJack === false) {
+          dealerWins.textContent = "Dealer wins with: " + dealersum; 
+        } else {
+          dealerWins.textContent = "Dealer got blackjack!";
+        }
+
         resultDiv.appendChild(dealerWins);
+        buttonContainer.prepend(resultDiv);
+
       }
 
   } if ((playersum <= 21 && dealersum <= 21) && (playersum > dealersum)) { // if playersum and dealersum is equal or less than 21 AND player is bigger than dealer. player wins.
     let playerWins = document.getElementById('playerWins');
       if(!playerWins) {
+
         let playerWins = document.createElement('p');
         playerWins.id = "playerWins";
-        playerWins.textContent = "Player wins with : " + playersum;
-        buttonContainer.prepend(resultDiv);
+
+        if (pBlackJack === false) {
+          playerWins.textContent = "Player wins with : " + playersum;
+        } else {
+          playerWins.textContent = "Player got blackjack!";
+        }
+
         resultDiv.appendChild(playerWins);
+        buttonContainer.prepend(resultDiv);
+
       }
   }
 }
@@ -262,7 +297,6 @@ function getCardForPlayer() {
 
 }
 
-
 function PlayerBlackJack() {
   if (player.length < 2) {
     return false;
@@ -280,17 +314,6 @@ function PlayerBlackJack() {
 function sumUpTotalPlayer() {
   console.log(player);
   playersum =  player.reduce((total, value) => total + value, 0);
-
-  const blackJackResult = PlayerBlackJack();
-
-  if(blackJackResult) {
-    console.log('player has blackjack');
-    let blackjackText = document.createElement('p');
-    blackjackText.textContent = "Blackjack!";
-    resultDiv.appendChild(blackjackText);
-  } else {
-    console.log('player doesnt have blackjack')
-  }
 
   // if sum is BIGGER than 21 = too much + disable hitbtn
   if (playersum > 21) {
