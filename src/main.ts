@@ -38,7 +38,7 @@ type cardValue = {value: string, altValue: number};
 
 const symbols: string[] = ["♥", "♦", "♣", "♠"];
 const valueCards: cardValue[] = [
-  {value: "A", altValue: 1 | 11},
+  {value: "A", altValue: 11},
   {value: "J", altValue: 10},
   {value: "Q", altValue: 10},
   {value: "K", altValue: 10},
@@ -52,7 +52,6 @@ const valueCards: cardValue[] = [
   {value: "9", altValue: 9},
   {value: "10", altValue: 10},
 ];
-
 
 const resultDiv = document.createElement('div');
 resultDiv.id = "resultDiv";
@@ -214,6 +213,7 @@ function sumUpTotalDealer() {
 
 const player: number[] = [];
 
+
 let playerContainer = document.createElement('div');
 playerContainer.className = "player-container";
 playerContainer.id = "playerContainer";
@@ -238,7 +238,7 @@ function getCardForPlayer() {
   let symbolElement = document.createElement('span');
   symbolElement.innerText = symbol;
 
-    // add class based on symbol
+  // add class based on symbol
   if (symbol === '♥' || symbol === '♦') {
     symbolElement.classList.add('red');
   } else {
@@ -249,7 +249,7 @@ function getCardForPlayer() {
   playerCard.className = 'player-card';
   playerCard.innerHTML = cardForPlayer.value + " ";
 
-  
+
   playerCard.appendChild(symbolElement);
   playerContainer.appendChild(playerCard)
   app?.appendChild(playerContainer);
@@ -260,24 +260,50 @@ function getCardForPlayer() {
 
   sumUpTotalPlayer();
 
-  
+}
 
+
+function PlayerBlackJack() {
+  if (player.length < 2) {
+    return false;
+  }
+
+  const firstCardPlayer = player[0];
+  const secondCardPlayer = player[1];
+
+  const hasAce = firstCardPlayer === 11 || secondCardPlayer === 11;
+  const hasFaceCard = secondCardPlayer === 10 || firstCardPlayer === 10;
+
+  return hasAce && hasFaceCard;
 }
 
 function sumUpTotalPlayer() {
+  console.log(player);
   playersum =  player.reduce((total, value) => total + value, 0);
+
+  const blackJackResult = PlayerBlackJack();
+
+  if(blackJackResult) {
+    console.log('player has blackjack');
+    let blackjackText = document.createElement('p');
+    blackjackText.textContent = "Blackjack!";
+    resultDiv.appendChild(blackjackText);
+  } else {
+    console.log('player doesnt have blackjack')
+  }
 
   // if sum is BIGGER than 21 = too much + disable hitbtn
   if (playersum > 21) {
     // stop the game, disable all buttons and show play again button
     let playAgainText = document.createElement('p');
-    playAgainText.innerText = "Too much! Play again?"
+    playAgainText.textContent = "Too much! Play again?"
 
     hitBtn.disabled = true;
     standBtn.disabled = true;
 
     app?.appendChild(resultDiv);
     resultDiv.appendChild(playAgainText);
+
 
   // if sum is 21, disable the hit card btn and stand
   } if (playersum === 21) { 
